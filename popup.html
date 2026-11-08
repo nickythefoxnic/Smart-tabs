@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body {
+    width: 320px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(180deg, #f8f6ff 0%, #eee9ff 100%);
+    color: #2d264b;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 18px;
+    background: linear-gradient(135deg, #3b1f87 0%, #5b3cc4 60%, #7c5cd6 100%);
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    box-shadow: 0 4px 20px rgba(91,60,196,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    pointer-events: none;
+  }
+  .header-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px);
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.12);
+    position: relative;
+    z-index: 1;
+  }
+  .header-text { flex: 1; min-width: 0; position: relative; z-index: 1; }
+  .header h2 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .version {
+    font-size: 10px;
+    opacity: 0.5;
+    font-weight: 500;
+    margin-top: 2px;
+    color: #d4c8ff;
+  }
+
+  /* ===== BODY ===== */
+  .body { padding: 24px 20px 18px; }
+
+  /* ===== STATUS ===== */
+  .status {
+    font-size: 12.5px;
+    padding: 11px 14px;
+    border-radius: 14px;
+    margin-top: 16px;
+    line-height: 1.6;
+    font-weight: 500;
+    animation: fadeSlideIn 0.3s ease;
+    white-space: pre-line;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .status.hidden { display: none !important; }
+  @keyframes fadeSlideIn {
+    from { opacity:0; transform: translateY(-8px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .status-ok    { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+  .status-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+  /* ===== DONATE ===== */
+  .donate-area {
+    margin-top: 18px;
+    text-align: center;
+  }
+  .donate-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #f97316 100%);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(234,88,12,0.28);
+    transition: all 0.2s ease;
+    letter-spacing: 0.1px;
+  }
+  .donate-btn:hover {
+    box-shadow: 0 6px 20px rgba(234,88,12,0.42);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%);
+  }
+  .donate-icon { font-size: 15px; }
+
+  /* ===== BINDING MANAGER ===== */
+  .bind-section { margin-top: 18px; }
+  .bind-title { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .bind-title .bind-sub { font-weight: 500; opacity: .6; font-size: 10.5px; margin-left: 4px; }
+  .bind-row {
+    background: #fff;
+    border: 1px solid #e5dcff;
+    border-radius: 12px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 11.5px;
+    box-shadow: 0 1px 3px rgba(91,60,196,0.06);
+  }
+  .bind-row .gname { font-weight: 700; display: flex; align-items: center; gap: 6px; word-break: break-all; }
+  .gdot { width: 9px; height: 9px; border-radius: 3px; display: inline-block; flex-shrink: 0; }
+  .bind-url { opacity: .72; font-size: 10.5px; margin-top: 3px; word-break: break-all; }
+  .bind-form { display: flex; gap: 5px; margin-top: 6px; }
+  .bind-form input {
+    flex: 1; min-width: 0;
+    border: 1px solid #d8ccff; border-radius: 8px;
+    padding: 5px 8px; font-size: 10.5px; font-family: inherit;
+    color: #2d264b; background: #fbfaff;
+  }
+  .bind-form input:focus { outline: none; border-color: #8b5cf6; }
+  .bind-form button, .bind-row .unbind {
+    border: none; border-radius: 8px; padding: 5px 10px;
+    font-size: 10.5px; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+  .bind-form button { background: #10a37f; color: #fff; }
+  .bind-form button:hover { background: #0d8a6c; }
+  .unbind { background: #fee2e2; color: #dc2626; margin-top: 6px; }
+  .unbind:hover { background: #fecaca; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">
+    <img src="icon48.png" width="32" height="32" alt="">
+  </div>
+  <div class="header-text">
+    <h2>Smart Tabs</h2>
+    <div class="version">v6.39.0</div>
+  </div>
+</div>
+
+<div class="body">
+  <div id="status" class="status hidden"></div>
+
+  <div class="hint" style="font-size:11px;line-height:1.5;opacity:.7;">
+    Open a Claude or ChatGPT project inside an existing tab group, then right-click the page and choose “Bind page to Tab”. You can also paste a Project URL below. Binding never changes the group name or color.
+  </div>
+
+  <div class="bind-section">
+    <div class="bind-title">Project Bindings<span class="bind-sub">One row per tab group</span></div>
+    <div id="bindList"></div>
+    <div class="hint" style="margin-top:6px;font-size:10.5px;line-height:1.5;opacity:.6;">
+      To bind manually: open a Project, copy its URL, paste it next to the intended tab group, and click Bind. New tabs opened inside that group will open the linked Project.
+    </div>
+  </div>
+
+  <div class="donate-area">
+    <a class="donate-btn" id="btnDonate" href="#" target="_blank" rel="noopener">
+      <span class="donate-icon">&#9749;</span> Buy me a coffee
+    </a>
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
